@@ -212,3 +212,60 @@ Custom rule modes: Percentage (X% cashback), Per unit (X points per $Y), Fixed (
 Supported conditions: Merchant, Branch, Collection, Category, Vendor, SKU, Tags, Channel, Custom order fields
 
 Scope: `earning-rules:read`, `earning-rules:write`
+
+---
+
+### Customers (4 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_customers` | List customers with pagination and 18 filter types |
+| `get_customer_details` | Get full customer profile by ExternalId (customerId) |
+| `add_customer_points` | Add points or currency amount to a customer's balance |
+| `deduct_customer_points` | Deduct points or currency amount from a customer's balance |
+
+#### Supported Customer Filters (18)
+
+| Filter | Syntax | Value Type |
+|---|---|---|
+| External ID | `id in {text}` | Contains match |
+| Display name | `name in {text}` | Contains match |
+| Phone | `phone in {text}` | Contains match |
+| Email | `email in {text}` | Contains match |
+| Tier | `level in {id,id}` | Comma-separated tier IDs |
+| Points >= | `points ge {int}` | Integer |
+| Points <= | `points le {int}` | Integer |
+| Points range | `points between {min},{max}` | Two integers |
+| Pending points >= | `ppoints ge {int}` | Integer |
+| Pending points <= | `ppoints le {int}` | Integer |
+| Pending points range | `ppoints between {min},{max}` | Two integers |
+| Score >= | `frubies ge {int}` | Integer |
+| Score <= | `frubies le {int}` | Integer |
+| Score range | `frubies between {min},{max}` | Two integers |
+| Created after | `cdate ge {date}` | ISO date |
+| Created before | `cdate le {date}` | ISO date |
+| Active status | `active eq {bool}` | true/false |
+| Guest status | `isguest eq {bool}` | true/false |
+| Tags | `tags in {id,id}` | Comma-separated tag IDs |
+
+Filters use AND logic, separated by `;f;`. Example: `level in 1464;f;points ge 100;f;active eq true`
+
+#### Points Operations
+
+| Operation | Input | Notes |
+|---|---|---|
+| Add by points | `points` (integer) | Positive value |
+| Add by amount | `amount` (currency) | Converted via redemption factor |
+| Add with custom expiry | `expiryAfterDays` | Optional, defaults to account setting |
+| Deduct by points | `points` (integer) | Balance capped at zero |
+| Deduct by amount | `amount` (currency) | Converted via redemption factor |
+
+All operations follow the dashboard's audit trail and segment tracking.
+
+Scope: `customers:read`, `customers:write`
+
+---
+
+## Summary
+
+**41 tools** across 7 modules: Program (2), Utils (7), Redemption (6), Campaigns (12), Widget (5), Earning (5), Customers (4)
