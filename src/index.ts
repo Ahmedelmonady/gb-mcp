@@ -12,6 +12,8 @@ import { RedemptionAPI } from "./api/redemption.js";
 import { registerRedemptionTools } from "./tools/redemption.js";
 import { CampaignsAPI } from "./api/campaigns.js";
 import { registerCampaignTools } from "./tools/campaigns.js";
+import { WidgetAPI } from "./api/widget.js";
+import { registerWidgetTools } from "./tools/widget.js";
 
 const GAMEBALL_TOKEN = process.env.GAMEBALL_PAT_TOKEN;
 const GAMEBALL_BASE_URL = process.env.GAMEBALL_BASE_URL;
@@ -29,6 +31,7 @@ registerProgramTools(server, new ProgramAPI(client));
 registerUtilsTools(server, new UtilsAPI(client));
 registerRedemptionTools(server, new RedemptionAPI(client), new UtilsAPI(client));
 registerCampaignTools(server, new CampaignsAPI(client));
+registerWidgetTools(server, new WidgetAPI(client));
 
 async function main() {
   const transport = new StdioServerTransport();
