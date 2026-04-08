@@ -194,3 +194,21 @@ Scope: `reward-campaigns:read`, `reward-campaigns:write`
 | `update_supported_languages` | Add, remove, or change default language |
 
 Scope: `widget:read`, `widget:write`
+
+---
+
+### Earning Rules (5 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_earning_config` | Read general earning config (rates, currency, expiry, pending, shipping/tax exclusions) |
+| `update_earning_config` | Update earning config — partial update, send only fields to change |
+| `get_earning_rules` | Read cashback type and conditions (which orders earn points) |
+| `update_earning_rules` | Update cashback type and conditions |
+| `create_custom_earning_rule` | Create custom earning rules with merchant/collection/channel conditions |
+
+Custom rule modes: Percentage (X% cashback), Per unit (X points per $Y), Fixed (flat X points per order)
+
+Supported conditions: Merchant, Branch, Collection, Category, Vendor, SKU, Tags, Channel, Custom order fields
+
+Scope: `earning-rules:read`, `earning-rules:write`
