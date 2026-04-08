@@ -8,6 +8,8 @@ import { ProgramAPI } from "./api/program.js";
 import { UtilsAPI } from "./api/utils.js";
 import { registerProgramTools } from "./tools/program.js";
 import { registerUtilsTools } from "./tools/utils.js";
+import { RedemptionAPI } from "./api/redemption.js";
+import { registerRedemptionTools } from "./tools/redemption.js";
 
 const GAMEBALL_TOKEN = process.env.GAMEBALL_PAT_TOKEN;
 const GAMEBALL_BASE_URL = process.env.GAMEBALL_BASE_URL;
@@ -23,6 +25,7 @@ const server = new McpServer({ name: "gameball", version: "1.0.0" });
 // Register tool modules — comment out any line to exclude a module from the release
 registerProgramTools(server, new ProgramAPI(client));
 registerUtilsTools(server, new UtilsAPI(client));
+registerRedemptionTools(server, new RedemptionAPI(client), new UtilsAPI(client));
 
 async function main() {
   const transport = new StdioServerTransport();
