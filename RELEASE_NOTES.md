@@ -180,3 +180,17 @@ Scope: `redemption:read`, `redemption:write`
 | Combined rules | Up to 5 rules with AND/OR logic |
 
 Scope: `reward-campaigns:read`, `reward-campaigns:write`
+
+---
+
+### Widget Settings (5 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_widget_settings` | Read full widget config: branding, general, guest, feature toggles |
+| `update_widget_style` | Update branding: colors, theme, fonts, icons, launcher button |
+| `update_widget_settings` | Update general + guest: visibility, features, referral, messaging |
+| `update_widget_sorting` | Update campaign, quest, and redemption sorting preferences |
+| `update_supported_languages` | Add, remove, or change default language |
+
+Scope: `widget:read`, `widget:write`
