@@ -4,6 +4,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 import { GameballAPIClient } from "./api/client.js";
+import { ProgramAPI } from "./api/program.js";
+import { registerProgramTools } from "./tools/program.js";
 
 const GAMEBALL_TOKEN = process.env.GAMEBALL_PAT_TOKEN;
 const GAMEBALL_BASE_URL = process.env.GAMEBALL_BASE_URL;
@@ -17,6 +19,7 @@ const client = new GameballAPIClient(GAMEBALL_TOKEN, GAMEBALL_BASE_URL);
 const server = new McpServer({ name: "gameball", version: "1.0.0" });
 
 // Register tool modules — comment out any line to exclude a module from the release
+registerProgramTools(server, new ProgramAPI(client));
 
 async function main() {
   const transport = new StdioServerTransport();
