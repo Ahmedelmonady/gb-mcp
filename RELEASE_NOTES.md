@@ -33,3 +33,16 @@ All operations go through the same backend controllers the dashboard uses — id
 
 - `GAMEBALL_PAT_TOKEN` — required. Personal Access Token from Settings > Account Integration.
 - `GAMEBALL_BASE_URL` — optional. The Gameball API base URL.
+
+---
+
+## Modules
+
+### Program (2 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_program_activation` | Check if the loyalty program is active |
+| `toggle_program_activation` | Enable or disable the entire loyalty program |
+
+Scope: `program:read`, `program:write`
