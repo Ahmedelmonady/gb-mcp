@@ -89,3 +89,94 @@ Multi-scope: each tool accepts any relevant scope (e.g., `get_tags` works with `
 All rules support: audience targeting, collection/merchant restrictions, localized reward names, coupon expiry, usage limits, cashback mode, platform targeting.
 
 Scope: `redemption:read`, `redemption:write`
+
+---
+
+### Reward Campaigns (12 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_campaign_template` | Fetch seed template by type name |
+| `get_reward_campaigns` | List all campaigns |
+| `get_reward_campaign` | Get full details for a single campaign |
+| `create_game_campaign` | Create game campaigns (11 game types) |
+| `create_event_campaign` | Create event-triggered campaigns |
+| `create_date_campaign` | Create date-triggered campaigns |
+| `create_mission` | Create non-sequential mission campaigns |
+| `create_calendar_campaign` | Create multi-day calendar campaigns |
+| `create_newsletter` | Create newsletter subscription campaigns |
+| `update_reward_campaign` | Update any existing campaign |
+| `toggle_reward_campaign_activation` | Activate or deactivate a campaign |
+| `delete_reward_campaign` | Delete a campaign |
+
+#### Supported Campaign Types (17)
+
+| ID | Type | Tool | Template | Category |
+|---|---|---|---|---|
+| 15 | Spin The Wheel | `create_game_campaign` | Yes | Luck-based Game |
+| 18 | Slot Machine | `create_game_campaign` | Yes | Luck-based Game |
+| 21 | Scratch & Win | `create_game_campaign` | Yes | Luck-based Game |
+| 19 | Quiz | `create_game_campaign` | Yes (no questions) | Skill-based Game |
+| 22 | Match Cards | `create_game_campaign` | Yes | Skill-based Game |
+| 23 | Catcher | `create_game_campaign` | Yes | Skill-based Game |
+| 26 | Tic Tac Toe | `create_game_campaign` | Yes | Skill-based Game |
+| 27 | Space Shooter | `create_game_campaign` | Yes | Skill-based Game |
+| 28 | Puzzle | `create_game_campaign` | Yes | Skill-based Game |
+| 29 | Tap The Target | `create_game_campaign` | Yes | Skill-based Game |
+| 30 | Driving Game | `create_game_campaign` | Yes | Skill-based Game |
+| 9 | EventBased | `create_event_campaign` | No (from scratch) | Event-triggered |
+| 32 | Spending Milestone | `create_event_campaign` | Yes | Event-triggered |
+| 33 | DateBased | `create_date_campaign` | Yes | Date-triggered |
+| 31 | Non-Sequential Mission | `create_mission` | Yes | Mission |
+| 20 | Calendar Campaign | `create_calendar_campaign` | Yes | Calendar |
+| 17 | Newsletter | `create_newsletter` | Yes | Newsletter |
+
+#### Replaced Campaign Types (not supported — use modern equivalents)
+
+| Legacy Type | Replaced By |
+|---|---|
+| AmountBased | EventBased |
+| ActionBased | EventBased |
+| HighScore | EventBased |
+| UponLogin | EventBased |
+| NonCumulativeAmountBased | EventBased |
+| SocialActivities | EventBased |
+| Birthday | DateBased |
+| JoinAnniversary | DateBased |
+
+#### Not Supported via MCP
+
+| Type | Reason |
+|---|---|
+| ScheduledChallenge | Requires backend automation entity setup |
+| DailyStreak | Requires backend automation entity setup |
+| PointsMultiplier | Requires backend automation entity setup |
+| ActionStreak | Requires backend automation entity setup |
+| SequentialMission | Requires backend automation entity setup |
+| AutomationRewardBadge | System-created only |
+| ManualChallenge | Staff-only award via dashboard |
+
+#### Supported Reward Types (all campaigns)
+
+| Reward Type | Description |
+|---|---|
+| Points | Any amount of loyalty points |
+| Fixed Discount | $X off coupon |
+| Percentage Discount | X% off coupon |
+| Free Shipping | Free shipping coupon |
+| Free Product | Specific product by ID |
+| Custom Coupon | Third-party coupon by group handle |
+| No Luck | Consolation outcome (games only) |
+
+#### Supported Audience Targeting
+
+| Target | How |
+|---|---|
+| All customers | Default (omit audience rules) |
+| Registered only | AccountState filter |
+| Anonymous/guest only | AccountState filter |
+| By tag/segment | Tag ID with In/NotIn operator |
+| By customer attribute | Attribute key + operator + value |
+| Combined rules | Up to 5 rules with AND/OR logic |
+
+Scope: `reward-campaigns:read`, `reward-campaigns:write`
