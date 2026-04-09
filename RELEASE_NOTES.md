@@ -61,3 +61,16 @@ Scope: `program:read`, `program:write`
 | `get_merchants` | List merchants with ExternalIds, names, and branches |
 
 Multi-scope: each tool accepts any relevant scope (e.g., `get_tags` works with `reward-campaigns:read` OR `customers:read`)
+
+---
+
+### VIP Tiers (2 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_tiers` | List VIP tiers with IDs, names, order, and score thresholds |
+| `get_tier_details` | Get full details for a single tier — includes reward configurations (benefits), locales, icon |
+
+Used by Customers (filter by tier), Campaigns (audience targeting), Redemption (tier-specific rules), Earning (tier children).
+
+Scope: `vip-tiers:read`, `customers:read`
