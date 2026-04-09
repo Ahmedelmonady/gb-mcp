@@ -1,0 +1,23 @@
+{
+  "name": "gameball-mcp",
+  "version": "1.0.0",
+  "description": "Gameball MCP Server — AI agent access to loyalty program management via Personal Access Tokens",
+  "type": "module",
+  "main": "build/index.js",
+  "bin": {
+    "gameball-mcp": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "typescript": "^5.8.3"
+  }
+}
