@@ -103,3 +103,65 @@ All rules support: audience targeting, collection/merchant restrictions, localiz
 Dependencies: Utils (languages, tags, collections, merchants)
 
 Scope: `redemption:read`, `redemption:write`
+
+---
+
+### Reward Campaigns (12 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_campaign_template` | Fetch seed template by type name |
+| `get_reward_campaigns` | List all campaigns |
+| `get_reward_campaign` | Get full details for a single campaign |
+| `create_game_campaign` | Create game campaigns (11 game types) |
+| `create_event_campaign` | Create event-triggered campaigns |
+| `create_date_campaign` | Create date-triggered campaigns |
+| `create_mission` | Create non-sequential mission campaigns |
+| `create_calendar_campaign` | Create multi-day calendar campaigns |
+| `create_newsletter` | Create newsletter subscription campaigns |
+| `update_reward_campaign` | Update any existing campaign |
+| `toggle_reward_campaign_activation` | Activate or deactivate a campaign |
+| `delete_reward_campaign` | Delete a campaign |
+
+#### Supported Campaign Types (17)
+
+| ID | Type | Tool | Template | Category |
+|---|---|---|---|---|
+| 15 | Spin The Wheel | `create_game_campaign` | Yes | Luck-based Game |
+| 18 | Slot Machine | `create_game_campaign` | Yes | Luck-based Game |
+| 21 | Scratch & Win | `create_game_campaign` | Yes | Luck-based Game |
+| 19 | Quiz | `create_game_campaign` | Yes (no questions) | Skill-based Game |
+| 22 | Match Cards | `create_game_campaign` | Yes | Skill-based Game |
+| 23 | Catcher | `create_game_campaign` | Yes | Skill-based Game |
+| 26 | Tic Tac Toe | `create_game_campaign` | Yes | Skill-based Game |
+| 27 | Space Shooter | `create_game_campaign` | Yes | Skill-based Game |
+| 28 | Puzzle | `create_game_campaign` | Yes | Skill-based Game |
+| 29 | Tap The Target | `create_game_campaign` | Yes | Skill-based Game |
+| 30 | Driving Game | `create_game_campaign` | Yes | Skill-based Game |
+| 9 | EventBased | `create_event_campaign` | No (from scratch) | Event-triggered |
+| 32 | Spending Milestone | `create_event_campaign` | Yes | Event-triggered |
+| 33 | DateBased | `create_date_campaign` | Yes | Date-triggered |
+| 31 | Non-Sequential Mission | `create_mission` | Yes | Mission |
+| 20 | Calendar Campaign | `create_calendar_campaign` | Yes | Calendar |
+| 17 | Newsletter | `create_newsletter` | Yes | Newsletter |
+
+#### Supported Reward Types
+
+Points, Fixed Discount ($X off), Percentage Discount (X% off), Free Shipping, Free Product, Custom Coupon, No Luck (games)
+
+#### Supported Audience Targeting
+
+All customers, Registered only, Anonymous/guest only, By tag/segment (In/NotIn), By customer attribute (Equals/Contains/GreaterThan/etc.), Combined rules (max 5, AND/OR logic)
+
+#### Not Supported (legacy / cross-service)
+
+| Type | Reason |
+|---|---|
+| AmountBased, ActionBased, HighScore, UponLogin, NonCumulativeAmountBased, SocialActivities | Replaced by EventBased |
+| Birthday, JoinAnniversary | Replaced by DateBased |
+| ScheduledChallenge, DailyStreak, PointsMultiplier, ActionStreak, SequentialMission | Backend automation entity setup required |
+| AutomationRewardBadge, ManualChallenge | System-only / staff-only |
+
+Dependencies: Utils (events, languages, tags, attributes)
+
+Scope: `reward-campaigns:read`, `reward-campaigns:write`
