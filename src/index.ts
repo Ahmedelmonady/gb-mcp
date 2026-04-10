@@ -8,10 +8,12 @@ import { ProgramAPI } from "./api/program.js";
 import { UtilsAPI } from "./api/utils.js";
 import { TiersAPI } from "./api/tiers.js";
 import { RedemptionAPI } from "./api/redemption.js";
+import { CampaignsAPI } from "./api/campaigns.js";
 import { registerProgramTools } from "./tools/program.js";
 import { registerUtilsTools } from "./tools/utils.js";
 import { registerTierTools } from "./tools/tiers.js";
 import { registerRedemptionTools } from "./tools/redemption.js";
+import { registerCampaignTools } from "./tools/campaigns.js";
 
 const GAMEBALL_TOKEN = process.env.GAMEBALL_PAT_TOKEN;
 const GAMEBALL_BASE_URL = process.env.GAMEBALL_BASE_URL;
@@ -30,6 +32,7 @@ registerProgramTools(server, new ProgramAPI(client));
 registerUtilsTools(server, utilsApi);
 registerTierTools(server, new TiersAPI(client));
 registerRedemptionTools(server, new RedemptionAPI(client), utilsApi);
+registerCampaignTools(server, new CampaignsAPI(client));
 
 async function main() {
   const transport = new StdioServerTransport();
