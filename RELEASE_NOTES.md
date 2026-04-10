@@ -165,3 +165,19 @@ All customers, Registered only, Anonymous/guest only, By tag/segment (In/NotIn),
 Dependencies: Utils (events, languages, tags, attributes)
 
 Scope: `reward-campaigns:read`, `reward-campaigns:write`
+
+---
+
+### Widget Settings (5 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_widget_settings` | Read full widget config: branding, general, guest, feature toggles |
+| `update_widget_style` | Update branding: colors, theme, fonts, icons, launcher button (MUST send ALL style fields) |
+| `update_widget_settings` | Update general + guest: visibility, features, referral, messaging (partial update OK) |
+| `update_widget_sorting` | Update campaign, quest, and redemption sorting preferences |
+| `update_supported_languages` | Add, remove, or change default language |
+
+Dependencies: Utils (languages)
+
+Scope: `widget:read`, `widget:write`
