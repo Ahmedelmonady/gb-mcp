@@ -214,3 +214,53 @@ Operators: 1=Equals, 2=NotEquals, 7=Contains, 8=NotContains. Logical: 1=AND, 2=O
 Dependencies: Utils (merchants, collections)
 
 Scope: `earning-rules:read`, `earning-rules:write`
+
+---
+
+### Customers (6 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_customers` | List customers with pagination and 18 filter types |
+| `get_customer_details` | Get full customer profile by ExternalId (customerId) |
+| `add_customer_points` | Add points or currency amount to a customer's balance |
+| `deduct_customer_points` | Deduct points or currency amount from a customer's balance |
+| `assign_customer_tags` | Assign tags to one or more customers by Gameball IDs |
+| `remove_customer_tags` | Remove tags from one or more customers by Gameball IDs |
+
+#### Supported Filters (18)
+
+| Filter | Syntax | Value Type |
+|---|---|---|
+| External ID | `id in {text}` | Contains match |
+| Display name | `name in {text}` | Contains match |
+| Phone | `phone in {text}` | Contains match |
+| Email | `email in {text}` | Contains match |
+| Tier | `level in {id,id}` | Comma-separated tier IDs |
+| Points >= / <= / range | `points ge/le/between` | Integer |
+| Pending points >= / <= / range | `ppoints ge/le/between` | Integer |
+| Score >= / <= / range | `frubies ge/le/between` | Integer |
+| Created after / before | `cdate ge/le` | ISO date |
+| Active status | `active eq {bool}` | true/false |
+| Guest status | `isguest eq {bool}` | true/false |
+| Tags | `tags in {id,id}` | Comma-separated tag IDs |
+
+Filters use AND logic, separated by `;f;`. Example: `level in 1464;f;points ge 100;f;active eq true`
+
+#### Points Operations
+
+Add/deduct by points (integer) or currency amount (converted via redemption factor). Deductions capped at zero. Optional custom expiry on add (defaults to account setting). Dashboard audit trail and segment tracking.
+
+#### Tag Operations
+
+Assign or remove tags by Gameball customer IDs (from `get_customers` `id` field) and tag IDs (from `get_tags`).
+
+Dependencies: Utils (tags), Tiers (tier IDs for filter)
+
+Scope: `customers:read`, `customers:write`
+
+---
+
+## Summary
+
+**47 tools** across 8 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (12), Widget (5), Earning (8), Customers (6)
