@@ -10,12 +10,14 @@ import { TiersAPI } from "./api/tiers.js";
 import { RedemptionAPI } from "./api/redemption.js";
 import { CampaignsAPI } from "./api/campaigns.js";
 import { WidgetAPI } from "./api/widget.js";
+import { EarningAPI } from "./api/earning.js";
 import { registerProgramTools } from "./tools/program.js";
 import { registerUtilsTools } from "./tools/utils.js";
 import { registerTierTools } from "./tools/tiers.js";
 import { registerRedemptionTools } from "./tools/redemption.js";
 import { registerCampaignTools } from "./tools/campaigns.js";
 import { registerWidgetTools } from "./tools/widget.js";
+import { registerEarningTools } from "./tools/earning.js";
 
 const GAMEBALL_TOKEN = process.env.GAMEBALL_PAT_TOKEN;
 const GAMEBALL_BASE_URL = process.env.GAMEBALL_BASE_URL;
@@ -36,6 +38,7 @@ registerTierTools(server, new TiersAPI(client));
 registerRedemptionTools(server, new RedemptionAPI(client), utilsApi);
 registerCampaignTools(server, new CampaignsAPI(client));
 registerWidgetTools(server, new WidgetAPI(client));
+registerEarningTools(server, new EarningAPI(client));
 
 async function main() {
   const transport = new StdioServerTransport();
