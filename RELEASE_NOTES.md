@@ -181,3 +181,36 @@ Scope: `reward-campaigns:read`, `reward-campaigns:write`
 Dependencies: Utils (languages)
 
 Scope: `widget:read`, `widget:write`
+
+---
+
+### Earning Rules (8 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_earning_config` | Read general earning config (rates, currency, expiry, pending, shipping/tax exclusions) |
+| `update_earning_config` | Update earning config — partial update, send only fields to change |
+| `get_earning_rules` | Read cashback type and conditions (which orders earn points) |
+| `update_earning_rules` | Update cashback type and conditions |
+| `create_custom_earning_rule` | Create custom earning rules with merchant/collection/channel conditions |
+| `get_custom_earning_rules` | List all custom earning rules |
+| `update_custom_earning_rule` | Update an existing custom rule (load full object first, modify, send back) |
+| `delete_custom_earning_rule` | Delete a custom rule by name (removes parent + all tier children) |
+
+#### Custom Rule Modes
+
+| Mode | Description |
+|---|---|
+| Percentage | X% cashback of order amount (e.g. 5% on WEB orders) |
+| Per unit | X points per $Y spent (e.g. 3 points per $10 at VMS merchants) |
+| Fixed | Flat X points per qualifying order (e.g. 1000 points for Deraah orders) |
+
+#### Supported Conditions
+
+Merchant.ExternalId, Merchant.Branch.ExternalId, OrderLineItems.Collection, OrderLineItems.Category, OrderLineItems.Vendor, OrderLineItems.Sku, OrderLineItems.Tags, Order.Channel, Order.Extra.\<field\>
+
+Operators: 1=Equals, 2=NotEquals, 7=Contains, 8=NotContains. Logical: 1=AND, 2=OR.
+
+Dependencies: Utils (merchants, collections)
+
+Scope: `earning-rules:read`, `earning-rules:write`
