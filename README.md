@@ -43,7 +43,7 @@ Add to your MCP config (`~/.claude/settings.json` or Claude Desktop config):
 GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 ```
 
-## Available Tools (16)
+## Available Tools (32)
 
 ### Program (2)
 
@@ -80,6 +80,29 @@ GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 | `update-redemption-option` | Update an existing rule by ID |
 | `toggle-redemption-option-activation` | Activate/deactivate a rule by ID |
 | `delete-redemption-option` | Delete a rule by ID (General rule protected) |
+
+### Reward Campaigns (16)
+
+Template-first flow: call `get-campaign-template` to get a full seed-data template with all defaults, modify only the fields the user wants, then call the appropriate grouped create tool. This mirrors the dashboard's exact creation flow.
+
+| Tool | Description |
+|---|---|
+| `get-campaign-template` | Fetch seed template by type name (e.g., "SpinTheWheel", "Quiz"). Returns full object with all defaults. |
+| `get-reward-campaigns` | List campaigns with pagination + dashboard-parity filters (cdate, cname, dname, frubies, points, status, visibility, behavior, activation, repeatability, notifyStatus, emailStatus) |
+| `get-reward-campaigns-count` | Aggregate count of campaigns matching the filter — same parameter shape as `get-reward-campaigns` (pageNo/pageSize accepted but ignored) |
+| `get-reward-campaigns-stats` | List campaigns with **per-campaign achievement counts pre-aggregated** in one call (`numberAchievements`, `numberPlayersAchieved`). Use for ranking questions like "campaign with most achievements" instead of N+1-ing the count tool. |
+| `get-reward-campaign` | Full details for a single campaign by ID |
+| `get-reward-campaign-customers` | List achievement records on a specific campaign (mirrors dashboard insights/rewards-customers-list). Returns winners + NoLuck losers by default; pass `success eq true` in filter for winners only on game campaigns |
+| `get-reward-campaign-customers-count` | Count of achievement records on a specific campaign — same parameter shape; pass `success eq true` for winners only |
+| `create-game-campaign` | Create game campaigns: SpinTheWheel, SlotMachine, ScratchAndWin, Quiz, MatchCards, Catcher, TicTacToe, SpaceShooter, Puzzle, TapTheTarget, DrivingGame |
+| `create-event-campaign` | Create event-triggered campaigns: EventBased (from scratch) or SpendingMilestone (from template) |
+| `create-date-campaign` | Create date-triggered campaigns: DateBased (birthday, join date, custom attributes) |
+| `create-mission` | Create mission campaigns: NonSequentialMission (tasks in any order) |
+| `create-calendar-campaign` | Create calendar campaigns: parent container + child campaigns per day (two-step) |
+| `create-newsletter` | Create newsletter subscription campaigns (must create inactive) |
+| `update-reward-campaign` | Update an existing campaign by ID (GET first, modify, pass back) |
+| `toggle-reward-campaign-activation` | Activate/deactivate a campaign by ID |
+| `delete-reward-campaign` | Delete a campaign and all child entities by ID |
 
 ## Authentication
 
