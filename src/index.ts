@@ -4,6 +4,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 import { GameballAPIClient } from "./api/client.js";
+import { UtilsAPI } from "./api/utils.js";
+import { registerUtilsTools } from "./tools/utils.js";
 
 const GAMEBALL_TOKEN = process.env.GAMEBALL_PAT_TOKEN;
 const GAMEBALL_BASE_URL = process.env.GAMEBALL_BASE_URL;
@@ -14,9 +16,9 @@ if (!GAMEBALL_TOKEN) {
 }
 
 const client = new GameballAPIClient(GAMEBALL_TOKEN, GAMEBALL_BASE_URL);
-void client;
+const utilsApi = new UtilsAPI(client);
 
-const SERVER_INSTRUCTIONS = `You are operating the Gameball MCP server — a thin wrapper over the same backend controllers the Gameball dashboard uses. Every tool runs against the client's real loyalty data. Apply these rules to every interaction with every tool unless a specific tool's description overrides them.
+const SERVER_INSTRUCTIONS =`You are operating the Gameball MCP server — a thin wrapper over the same backend controllers the Gameball dashboard uses. Every tool runs against the client's real loyalty data. Apply these rules to every interaction with every tool unless a specific tool's description overrides them.
 
 ## Conversational style
 - Be interactive. Ask one or two related questions at a time, never a wall of every possible option.
@@ -48,7 +50,8 @@ const server = new McpServer(
   { instructions: SERVER_INSTRUCTIONS }
 );
 
-// Toolsets are registered in subsequent commits — utils, program, tiers, redemption, reward campaigns, widget, earning, customers.
+// Register tool modules — comment out any line to exclude a module from the release
+registerUtilsTools(server, utilsApi);
 
 async function main() {
   const transport = new StdioServerTransport();
