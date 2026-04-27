@@ -220,6 +220,22 @@ Scope: `reward-campaigns:read`, `reward-campaigns:write`
 
 ---
 
+### Widget Settings (5 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_widget_settings` | Read full widget config: branding, general, guest, feature toggles |
+| `update_widget_style` | Update branding: colors, theme, fonts, icons, launcher button (MUST send ALL style fields) |
+| `update_widget_settings` | Update general + guest: visibility, features, referral, messaging (partial update OK) |
+| `update_widget_sorting` | Update campaign, quest, and redemption sorting preferences |
+| `update_supported_languages` | Add, remove, or change default language |
+
+Dependencies: Utils (languages)
+
+Scope: `widget:read`, `widget:write`
+
+---
+
 ## Summary
 
-**32 tools** across 5 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (16)
+**37 tools** across 6 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (16), Widget (5)

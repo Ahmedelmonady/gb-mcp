@@ -43,7 +43,7 @@ Add to your MCP config (`~/.claude/settings.json` or Claude Desktop config):
 GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 ```
 
-## Available Tools (32)
+## Available Tools (37)
 
 ### Program (2)
 
@@ -80,6 +80,18 @@ GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 | `update-redemption-option` | Update an existing rule by ID |
 | `toggle-redemption-option-activation` | Activate/deactivate a rule by ID |
 | `delete-redemption-option` | Delete a rule by ID (General rule protected) |
+
+### Widget Settings (5)
+
+Requires **both** `widget:read` and `widget:write` scopes. Always call `get-widget-settings` first — updates use AutoMapper merge, so nulls wipe existing values.
+
+| Tool | Description |
+|---|---|
+| `get-widget-settings` | Full widget config: branding, general, guest, feature toggles |
+| `update-widget-style` | Update branding: colors, theme, fonts, icons, launcher button |
+| `update-widget-settings` | Update general + guest: visibility, features, referral, messaging, links |
+| `update-widget-sorting` | Update campaign, quest, and redemption sorting preferences |
+| `update-supported-languages` | Add, remove, or change default language (GET languages first, modify, pass back) |
 
 ### Reward Campaigns (16)
 
