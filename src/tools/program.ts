@@ -16,7 +16,9 @@ export function registerProgramTools(server: McpServer, api: ProgramAPI): void {
   server.registerTool("toggle_program_activation", {
     title: "Toggle Program Activation",
     description:
-      "Enables or disables the overall Gameball loyalty program (GbEnabled). When disabled, the widget stops showing, events stop processing, and integrations stop triggering.\n\n**User prompting:** Confirm with the user before toggling — 'Are you sure you want to [enable/disable] the loyalty program? This affects the widget, event processing, and integrations.'",
+      "Enables or disables the overall Gameball loyalty program (GbEnabled).\n\n" +
+      "**Effects when disabled:** the widget stops showing on the storefront, and events from the storefront stop being processed. Existing data and integrations are unaffected.\n\n" +
+      "Follow the global server instructions for confirm-before-acting and read-state-before-mutating — call `get_program_activation` first, state the current status, double-confirm before deactivation.",
     inputSchema: {
       isActive: z.boolean().describe("Set to true to enable the program, false to disable"),
     },

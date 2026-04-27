@@ -13,11 +13,18 @@ FLOW:
 4. Show the user a SUMMARY of what will be created before calling this tool
 5. Call this tool with the full modified template`;
 
-export const CORE_REQUIRED = `REQUIRED (form won't save without these):
+export const CORE_REQUIRED = `CAMPAIGN-TYPE SKIP RULES (in addition to the global server instructions on conversational style and irrelevant questions):
+- Game campaigns (Spin, Slot, Quiz, Catcher, ScratchAndWin, MatchCards, TicTacToe, SpaceShooter, Puzzle, TapTheTarget, DrivingGame) have NO trigger — they fire when the customer plays the game from the widget. NEVER ask "what triggers this?" or "which event triggers this?".
+- Date campaigns (DateBased, CalendarCampaign) trigger on the date attribute itself — do NOT ask for a separate trigger event.
+- Single-occurrence types (DateBased, NonSequentialMission, Newsletter) have no repeatability — do NOT ask "can customers earn this multiple times?".
+- Newsletter campaigns must be created inactive — do NOT ask "create active or inactive?".
+- Redirection button only applies to EventBased, DateBased, CalendarCampaign — do NOT offer it for games, missions, newsletter, or spending milestone.
+
+REQUIRED (form won't save without these):
 1. Campaign name and description (set on challengeBehaviour.locals[].gameName and .description per language — keep extraTranslations from template!)
 2. At least one reward (rewardConfigurations[]: set playerPoints, rewardType, and locales[].rewardName per language)
 
-ASK THE USER (prompt for each if not mentioned):
+ASK THE USER (prompt for each only if it applies — see INTERACTIVITY RULES above — and only if not already mentioned):
 3. Audience — "Target all customers (default), registered only, anonymous/guest, or a specific segment?"
    Default=omit audience. Anonymous=[{ key:"AccountState", operator:9, value:"2" }]. By tag=[{ key:"Tag", operator:9, value:"<tagId>" }] (call get-tags for IDs).
 4. Scheduling — "Always active (default), or restrict to a specific date range?"
