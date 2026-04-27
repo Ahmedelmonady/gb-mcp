@@ -56,6 +56,26 @@ export function registerCustomerTools(server: McpServer, api: CustomersAPI): voi
     return { content: [{ type: "text" as const, text: JSON.stringify({ items, totalCount: data?.totalCount }, null, 2) }] };
   });
 
+  server.registerTool("get_customers_count", {
+    title: "Get Customers Count",
+    description:
+      "Returns aggregate customer counts (total, active, inactive) matching the filter — same filter syntax as `get_customers`.\n\n" +
+      "Use this when the user wants a count or quick stat (e.g. 'how many active customers in tier 2', 'count of customers with points over 500') " +
+      "without needing the full list. Much cheaper than paging through `get_customers`.\n\n" +
+      "**Filter syntax:** identical to `get_customers` — see that tool's description for the full filter table. " +
+      "Omit the filter to get the total customer count for the client.\n\n" +
+      "**User prompting:** Ask what they want to count if not specified. Present the result as a short sentence (e.g. 'You have 1,234 active customers.') rather than raw JSON.",
+    inputSchema: {
+      filter: z.string().optional().describe("Filter string using the same syntax as get_customers. Omit for the total count."),
+      orderBy: z.string().optional().default("CreationDate").describe("Sort field (default: CreationDate). Does not affect the count but is required by the underlying endpoint."),
+      dir: z.enum(["asc", "desc"]).optional().default("desc").describe("Sort direction (default: desc). Does not affect the count."),
+    },
+    annotations: { readOnlyHint: true },
+  }, async ({ filter, orderBy, dir }) => {
+    const result = await api.getCustomersCount({ filter, orderBy, dir });
+    return { content: [{ type: "text" as const, text: JSON.stringify((result as any)?.data ?? result, null, 2) }] };
+  });
+
   server.registerTool("get_customer_details", {
     title: "Get Customer Details",
     description:
