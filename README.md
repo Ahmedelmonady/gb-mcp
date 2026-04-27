@@ -43,7 +43,7 @@ Add to your MCP config (`~/.claude/settings.json` or Claude Desktop config):
 GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 ```
 
-## Available Tools (33)
+## Available Tools (40)
 
 ### Program (2)
 
@@ -84,6 +84,18 @@ Requires **both** `widget:read` and `widget:write` scopes. Always call `get-widg
 | `update-redemption-option` | Update an existing rule by ID |
 | `toggle-redemption-option-activation` | Activate/deactivate a rule by ID |
 | `delete-redemption-option` | Delete a rule by ID (General rule protected) |
+
+### Customers (7)
+
+| Tool | Description |
+|---|---|
+| `get-customers` | List customers with pagination and 18 filter types |
+| `get-customers-count` | Aggregate customer counts (total, active, inactive) for the same filter set |
+| `get-customer-details` | Get full customer profile by ExternalId (customerId) |
+| `add-customer-points` | Add points or currency amount to a customer's balance |
+| `deduct-customer-points` | Deduct points or currency amount from a customer's balance |
+| `assign-customer-tags` | Assign tags to one or more customers by Gameball IDs |
+| `remove-customer-tags` | Remove tags from one or more customers by Gameball IDs |
 
 ### Reward Campaigns (15)
 

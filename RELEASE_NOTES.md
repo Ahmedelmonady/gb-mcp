@@ -260,11 +260,12 @@ Scope: `earning-rules:read`, `earning-rules:write`
 
 ---
 
-### Customers (6 tools)
+### Customers (7 tools)
 
 | Tool | What it does |
 |---|---|
 | `get_customers` | List customers with pagination and 18 filter types |
+| `get_customers_count` | Aggregate customer counts (total, active, inactive) matching the same filter syntax as get_customers |
 | `get_customer_details` | Get full customer profile by ExternalId (customerId) |
 | `add_customer_points` | Add points or currency amount to a customer's balance |
 | `deduct_customer_points` | Deduct points or currency amount from a customer's balance |
@@ -306,4 +307,4 @@ Scope: `customers:read`, `customers:write`
 
 ## Summary
 
-**50 tools** across 8 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (15), Widget (5), Earning (8), Customers (6)
+**51 tools** across 8 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (15), Widget (5), Earning (8), Customers (7)
