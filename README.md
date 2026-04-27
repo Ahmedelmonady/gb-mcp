@@ -43,7 +43,14 @@ Add to your MCP config (`~/.claude/settings.json` or Claude Desktop config):
 GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 ```
 
-## Available Tools (6)
+## Available Tools (8)
+
+### Program (2)
+
+| Tool | Description |
+|---|---|
+| `get-program-activation` | Check if the loyalty program is active (GbEnabled) |
+| `toggle-program-activation` | Enable/disable the entire loyalty program |
 
 ### Discovery / Utils (6)
 

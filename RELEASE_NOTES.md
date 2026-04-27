@@ -59,6 +59,17 @@ Toolset-specific overrides remain in their files (e.g. `tools/shared.ts` `CORE_R
 
 ## Modules
 
+### Program (2 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_program_activation` | Check if the loyalty program is active |
+| `toggle_program_activation` | Enable or disable the entire loyalty program |
+
+Scope: `program:read`, `program:write`
+
+---
+
 ### Utils / Discovery (6 tools)
 
 | Tool | What it does |
@@ -76,4 +87,4 @@ Multi-scope: each tool accepts any relevant scope (e.g., `get_tags` works with `
 
 ## Summary
 
-**6 tools** across 1 module: Utils (6)
+**8 tools** across 2 modules: Program (2), Utils (6)
