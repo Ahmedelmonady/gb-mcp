@@ -1,5 +1,48 @@
 # Gameball MCP Server — Release Notes
 
+## What's in this release — listing, filtering, counts, stats, interactivity
+
+This release rounds out the read-side of the MCP server with full dashboard parity on filtering and pagination, plus per-campaign performance stats in a single call. It also moves cross-cutting LLM guidance from per-tool descriptions to a server-level instructions block so every toolset inherits it.
+
+### New tools (6)
+
+| Tool | Module | What it does |
+|---|---|---|
+| `get_customers_count` | Customers | Aggregate customer counts (total, active, inactive) for the same filter syntax as `get_customers`. |
+| `get_reward_campaigns_count` | Reward Campaigns | Total campaigns matching the filter, in one call. |
+| `get_reward_campaigns_stats` | Reward Campaigns | Campaigns with **per-campaign achievement counts pre-aggregated** in one call (`numberAchievements`, `numberPlayersAchieved`). Solves the N+1 problem of calling the per-campaign count tool in a loop. |
+| `get_reward_campaign_customers` | Reward Campaigns | Achievement records for a specific campaign (mirrors the dashboard's reward-customers-list / insights tab). Pass `success eq true` for winners-only on game campaigns. |
+| `get_reward_campaign_customers_count` | Reward Campaigns | Count for the achievement records of a specific campaign. |
+
+### Modified tools (1)
+
+| Tool | Module | What changed |
+|---|---|---|
+| `get_reward_campaigns` | Reward Campaigns | Now accepts `pageNo`, `pageSize`, `filter`, `orderBy`, `dir`. Filter syntax mirrors the dashboard's rewards-list (cdate, cname, dname, frubies, points, status, visibility, behavior, activation, repeatability, notifyStatus, emailStatus). |
+
+### Server-level conventions
+
+- **`SERVER_INSTRUCTIONS` block** — passed to the McpServer init in `src/index.ts`, applies to every tool. Conversational style, don't-ask-irrelevant-questions, confirm-before-acting (double-confirm on destructive ops), read-state-before-mutating, friendly-summary output. See the *Server-level instructions* section below.
+- **List/count interface parity** — every list/count tool pair has identical input shape. Count tools accept `pageNo` and `pageSize` for symmetry but ignore them (count is one number, no pagination). See the *Conventions* section below.
+- **Filter syntax parity with dashboard** — semicolon-delimited `;f;` AND-combined filters. Capture a URL from a filtered dashboard page and the filter substring is byte-identical to what you'd pass to the MCP `filter` argument.
+
+### Backend changes (g-backend-v2 / `pat-management`)
+
+New PAT-scoped MCP wrappers, all in `McpRewardCampaignsController` and `McpCustomersController`:
+
+| MCP route | Delegates to |
+|---|---|
+| `GET /api/v4.0/mcp/customers/count` | `PlayersController.GetPlayerStatistics2` |
+| `GET /api/v4.0/mcp/reward-campaigns` (extended) | `ChallengesController.View2` |
+| `GET /api/v4.0/mcp/reward-campaigns/count` | `ChallengesController.View2` (with `pageSize=1`) |
+| `GET /api/v4.0/mcp/reward-campaigns/stats` | `ChallengesController.Statistics` |
+| `GET /api/v4.0/mcp/reward-campaigns/{id}/customers` | `ChallengesController.ViewChallengeAchievements` |
+| `GET /api/v4.0/mcp/reward-campaigns/{id}/customers/count` | `ChallengesController.ViewChallengeAchievements` (with `pageSize=1`) |
+
+Plus one MCP-layer fix: `get_reward_campaign` now strips the always-empty `StatisticsDetails` placeholder the dashboard's Get returns (`{}` → `null`), so AI agents don't infer "stats but empty" from a misleading shape.
+
+---
+
 ## Architecture
 
 ```
