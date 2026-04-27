@@ -36,6 +36,27 @@ All operations go through the same backend controllers the dashboard uses — id
 
 ---
 
+## Server-level instructions
+
+The MCP server ships a `SERVER_INSTRUCTIONS` block to the client during the initialize handshake (`src/index.ts`). The instructions apply to **every tool in every toolset** and the LLM honors them across the whole session. Five sections:
+
+1. **Conversational style** — ask one or two related questions at a time, show progress, echo answers back, no silent stretches, friendly names not raw IDs.
+2. **Don't ask irrelevant questions** — skip prompts that don't apply to the specific object/operation; respect documented defaults instead of pestering.
+3. **Confirm before acting** — plain-language summary before any write op; double-confirm on destructive ops (delete / deactivate / deduct points / program off).
+4. **Read state before mutating** — call the matching `get_*` tool first for toggle / update / delete; never build update payloads from scratch.
+5. **Output style** — friendly readable summary, not raw JSON; one-sentence answer for counts.
+
+Toolset-specific overrides remain in their files (e.g. `tools/shared.ts` `CORE_REQUIRED` carries the campaign-type SKIP rules: games have no triggers, dates trigger by attribute, single-occurrence types have no repeatability, newsletter must be inactive, redirection button only for EventBased / DateBased / CalendarCampaign).
+
+---
+
+## Conventions
+
+- **List/count interface parity** — every list/count tool pair shares the exact same input shape. `pageNo` and `pageSize` are accepted on count tools too (for parity) but ignored — count is a single number, pagination doesn't apply.
+- **Filter syntax** — `;f;`-delimited AND-combined filters, identical to what the dashboard sends. URL captured from a filtered dashboard page is byte-identical to the MCP `filter` argument.
+
+---
+
 ## Modules
 
 ### Program (2 tools)
@@ -106,13 +127,14 @@ Scope: `redemption:read`, `redemption:write`
 
 ---
 
-### Reward Campaigns (15 tools)
+### Reward Campaigns (16 tools)
 
 | Tool | What it does |
 |---|---|
 | `get_campaign_template` | Fetch seed template by type name |
 | `get_reward_campaigns` | List campaigns with pagination + dashboard-parity filters |
 | `get_reward_campaigns_count` | Aggregate count of campaigns matching the filter |
+| `get_reward_campaigns_stats` | List campaigns with **per-campaign achievement counts pre-aggregated** in one call (`numberAchievements`, `numberPlayersAchieved`). Solves the N+1 problem of looping `get_reward_campaign_customers_count` per campaign — wraps the dashboard's `Statistics` endpoint that joins the `Achievement` table once for the whole page. |
 | `get_reward_campaign` | Get full details for a single campaign |
 | `get_reward_campaign_customers` | List achievement records on a specific campaign (winners + NoLuck losers by default; pass `success eq true` in filter for winners only on game campaigns) |
 | `get_reward_campaign_customers_count` | Count of achievement records — same filter set; pass `success eq true` for winners only |
@@ -307,4 +329,4 @@ Scope: `customers:read`, `customers:write`
 
 ## Summary
 
-**51 tools** across 8 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (15), Widget (5), Earning (8), Customers (7)
+**52 tools** across 8 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (16), Widget (5), Earning (8), Customers (7)

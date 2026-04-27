@@ -43,7 +43,9 @@ Add to your MCP config (`~/.claude/settings.json` or Claude Desktop config):
 GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 ```
 
-## Available Tools (40)
+## Available Tools (41)
+
+> **Server-level instructions:** the MCP server ships a global `SERVER_INSTRUCTIONS` block to the client during the initialize handshake (`src/index.ts`). This applies to **every tool in every toolset** — conversational style, don't-ask-irrelevant-questions, confirm-before-acting (double-confirm on destructive ops), read-state-before-mutating, friendly-summary output. Toolset-specific overrides live in their own files (e.g. `tools/shared.ts` for campaign-type skip rules).
 
 ### Program (2)
 
@@ -90,14 +92,14 @@ Requires **both** `widget:read` and `widget:write` scopes. Always call `get-widg
 | Tool | Description |
 |---|---|
 | `get-customers` | List customers with pagination and 18 filter types |
-| `get-customers-count` | Aggregate customer counts (total, active, inactive) for the same filter set |
+| `get-customers-count` | Aggregate customer counts (total, active, inactive) — same parameter shape as `get-customers` (pageNo/pageSize accepted but ignored) |
 | `get-customer-details` | Get full customer profile by ExternalId (customerId) |
 | `add-customer-points` | Add points or currency amount to a customer's balance |
 | `deduct-customer-points` | Deduct points or currency amount from a customer's balance |
 | `assign-customer-tags` | Assign tags to one or more customers by Gameball IDs |
 | `remove-customer-tags` | Remove tags from one or more customers by Gameball IDs |
 
-### Reward Campaigns (15)
+### Reward Campaigns (16)
 
 Template-first flow: call `get-campaign-template` to get a full seed-data template with all defaults, modify only the fields the user wants, then call the appropriate grouped create tool. This mirrors the dashboard's exact creation flow.
 
@@ -105,10 +107,11 @@ Template-first flow: call `get-campaign-template` to get a full seed-data templa
 |---|---|
 | `get-campaign-template` | Fetch seed template by type name (e.g., "SpinTheWheel", "Quiz"). Returns full object with all defaults. |
 | `get-reward-campaigns` | List campaigns with pagination + dashboard-parity filters (cdate, cname, dname, frubies, points, status, visibility, behavior, activation, repeatability, notifyStatus, emailStatus) |
-| `get-reward-campaigns-count` | Aggregate count of campaigns matching the filter |
+| `get-reward-campaigns-count` | Aggregate count of campaigns matching the filter — same parameter shape as `get-reward-campaigns` (pageNo/pageSize accepted but ignored) |
+| `get-reward-campaigns-stats` | List campaigns with **per-campaign achievement counts pre-aggregated** in one call (`numberAchievements`, `numberPlayersAchieved`). Use for ranking questions like "campaign with most achievements" instead of N+1-ing the count tool. |
 | `get-reward-campaign` | Full details for a single campaign by ID |
 | `get-reward-campaign-customers` | List achievement records on a specific campaign (mirrors dashboard insights/rewards-customers-list). Returns winners + NoLuck losers by default; pass `success eq true` in filter for winners only on game campaigns |
-| `get-reward-campaign-customers-count` | Count of achievement records on a specific campaign — same filter set; pass `success eq true` for winners only |
+| `get-reward-campaign-customers-count` | Count of achievement records on a specific campaign — same parameter shape; pass `success eq true` for winners only |
 | `create-game-campaign` | Create game campaigns: SpinTheWheel, SlotMachine, ScratchAndWin, Quiz, MatchCards, Catcher, TicTacToe, SpaceShooter, Puzzle, TapTheTarget, DrivingGame |
 | `create-event-campaign` | Create event-triggered campaigns: EventBased (from scratch) or SpendingMilestone (from template) |
 | `create-date-campaign` | Create date-triggered campaigns: DateBased (birthday, join date, custom attributes) |
