@@ -106,13 +106,16 @@ Scope: `redemption:read`, `redemption:write`
 
 ---
 
-### Reward Campaigns (12 tools)
+### Reward Campaigns (15 tools)
 
 | Tool | What it does |
 |---|---|
 | `get_campaign_template` | Fetch seed template by type name |
-| `get_reward_campaigns` | List all campaigns |
+| `get_reward_campaigns` | List campaigns with pagination + dashboard-parity filters |
+| `get_reward_campaigns_count` | Aggregate count of campaigns matching the filter |
 | `get_reward_campaign` | Get full details for a single campaign |
+| `get_reward_campaign_customers` | List achievement records on a specific campaign (winners + NoLuck losers by default; pass `success eq true` in filter for winners only on game campaigns) |
+| `get_reward_campaign_customers_count` | Count of achievement records — same filter set; pass `success eq true` for winners only |
 | `create_game_campaign` | Create game campaigns (11 game types) |
 | `create_event_campaign` | Create event-triggered campaigns |
 | `create_date_campaign` | Create date-triggered campaigns |
@@ -122,6 +125,46 @@ Scope: `redemption:read`, `redemption:write`
 | `update_reward_campaign` | Update any existing campaign |
 | `toggle_reward_campaign_activation` | Activate or deactivate a campaign |
 | `delete_reward_campaign` | Delete a campaign |
+
+#### Supported Filters on `get_reward_campaigns` (mirrors dashboard rewards-list)
+
+| Filter | Syntax | Value Type |
+|---|---|---|
+| Created after / before | `cdate ge/le` | ISO date |
+| Campaign name | `cname in {text}` | Contains match |
+| Display name | `dname in {text}` | Contains match |
+| Rank Points >= / <= | `frubies ge/le` | Integer |
+| Wallet Points >= / <= | `points ge/le` | Integer |
+| Active status | `status eq {bool}` | true/false |
+| Visibility | `visibility eq {1\|2\|3}` | 1=Always, 2=Not, 3=If Earned |
+| Behavior type | `behavior eq {id}` | Behavior enum (14 dashboard-exposed IDs: 4, 5, 7, 8, 9, 10, 11, 12, 15, 17, 18, 19, 20, 21) |
+| Activation Settings | `activation eq {1\|2}` | 1=Always Active, 2=Scheduled |
+| Repeatability | `repeatability eq {-1\|N}` | -1=Unlimited, N=occurrence count |
+| In-App Notification Status | `notifyStatus eq {1\|2\|3}` | 1=Global, 2=On, 3=Off |
+| Email Notification Status | `emailStatus eq {1\|2\|3}` | 1=Global, 2=On, 3=Off |
+
+Filters use AND logic, separated by `;f;`. Example: `status eq true;f;behavior eq 15;f;cname in welcome`
+
+#### Supported Filters on `get_reward_campaign_customers` (mirrors dashboard insights/rewards-customers-list page)
+
+| Filter | Syntax | Value Type |
+|---|---|---|
+| External ID | `id in {text}` | Contains match |
+| Display name | `name in {text}` | Contains match |
+| Email | `email in {text}` | Contains match |
+| Reward Points >= / <= | `points ge/le` | Integer |
+| Reward Frubies >= / <= | `frubies ge/le` | Integer |
+| Achieved after / before | `cdate ge/le` | ISO date |
+| Tags | `tags in {id,id}` | Comma-separated tag IDs |
+| Game success | `success eq {bool}` | true=won (not NoLuck), false=NoLuck |
+| Voucher product | `voucherpname in {text}` | Contains match |
+| Voucher discount >= / <= | `voucherdicount ge/le` | Number |
+| Free shipping voucher | `vouchershipping sl {any}` | Marker |
+| Merchant name | `mname in {text}` | Contains match |
+| Branch name | `bname in {text}` | Contains match |
+| Merchant IDs | `merchants id {id,id}` | Comma-separated |
+| Branch IDs | `branches id {id,id}` | Comma-separated |
+| Achievement rank IDs | `rank in {id,id}` | Comma-separated |
 
 #### Supported Campaign Types (17)
 
@@ -263,4 +306,4 @@ Scope: `customers:read`, `customers:write`
 
 ## Summary
 
-**47 tools** across 8 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (12), Widget (5), Earning (8), Customers (6)
+**50 tools** across 8 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (15), Widget (5), Earning (8), Customers (6)

@@ -43,7 +43,7 @@ Add to your MCP config (`~/.claude/settings.json` or Claude Desktop config):
 GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 ```
 
-## Available Tools (29)
+## Available Tools (33)
 
 ### Program (2)
 
@@ -85,15 +85,18 @@ Requires **both** `widget:read` and `widget:write` scopes. Always call `get-widg
 | `toggle-redemption-option-activation` | Activate/deactivate a rule by ID |
 | `delete-redemption-option` | Delete a rule by ID (General rule protected) |
 
-### Reward Campaigns (11)
+### Reward Campaigns (15)
 
 Template-first flow: call `get-campaign-template` to get a full seed-data template with all defaults, modify only the fields the user wants, then call the appropriate grouped create tool. This mirrors the dashboard's exact creation flow.
 
 | Tool | Description |
 |---|---|
 | `get-campaign-template` | Fetch seed template by type name (e.g., "SpinTheWheel", "Quiz"). Returns full object with all defaults. |
-| `get-reward-campaigns` | List all campaigns (slim: id, name, behaviorType, isActive) |
+| `get-reward-campaigns` | List campaigns with pagination + dashboard-parity filters (cdate, cname, dname, frubies, points, status, visibility, behavior, activation, repeatability, notifyStatus, emailStatus) |
+| `get-reward-campaigns-count` | Aggregate count of campaigns matching the filter |
 | `get-reward-campaign` | Full details for a single campaign by ID |
+| `get-reward-campaign-customers` | List achievement records on a specific campaign (mirrors dashboard insights/rewards-customers-list). Returns winners + NoLuck losers by default; pass `success eq true` in filter for winners only on game campaigns |
+| `get-reward-campaign-customers-count` | Count of achievement records on a specific campaign — same filter set; pass `success eq true` for winners only |
 | `create-game-campaign` | Create game campaigns: SpinTheWheel, SlotMachine, ScratchAndWin, Quiz, MatchCards, Catcher, TicTacToe, SpaceShooter, Puzzle, TapTheTarget, DrivingGame |
 | `create-event-campaign` | Create event-triggered campaigns: EventBased (from scratch) or SpendingMilestone (from template) |
 | `create-date-campaign` | Create date-triggered campaigns: DateBased (birthday, join date, custom attributes) |
