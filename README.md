@@ -43,7 +43,7 @@ Add to your MCP config (`~/.claude/settings.json` or Claude Desktop config):
 GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 ```
 
-## Available Tools (37)
+## Available Tools (45)
 
 ### Program (2)
 
@@ -80,6 +80,19 @@ GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 | `update-redemption-option` | Update an existing rule by ID |
 | `toggle-redemption-option-activation` | Activate/deactivate a rule by ID |
 | `delete-redemption-option` | Delete a rule by ID (General rule protected) |
+
+### Earning (8)
+
+| Tool | Description |
+|---|---|
+| `get-earning-config` | Read general earning config (rates, currency, expiry, pending, shipping/tax exclusions) |
+| `update-earning-config` | Update general earning config |
+| `get-earning-rules` | List default earning rules |
+| `update-earning-rules` | Update default earning rules |
+| `create-custom-earning-rule` | Create a custom earning rule with one of 3 reward modes |
+| `get-custom-earning-rules` | List custom earning rules |
+| `update-custom-earning-rule` | Update a custom earning rule |
+| `delete-custom-earning-rule` | Delete a custom earning rule |
 
 ### Widget Settings (5)
 

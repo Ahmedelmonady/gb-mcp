@@ -238,4 +238,21 @@ Scope: `widget:read`, `widget:write`
 
 ## Summary
 
-**37 tools** across 6 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (16), Widget (5)
+### Earning Rules (8 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_earning_config` | Read general earning config (rates, currency, expiry, pending, shipping/tax exclusions) |
+| `update_earning_config` | Update general earning config |
+| `get_earning_rules` | List default earning rules |
+| `update_earning_rules` | Update default earning rules |
+| `create_custom_earning_rule` | Create a custom earning rule with one of 3 reward modes |
+| `get_custom_earning_rules` | List custom earning rules |
+| `update_custom_earning_rule` | Update a custom earning rule |
+| `delete_custom_earning_rule` | Delete a custom earning rule |
+
+Scope: `earning:read`, `earning:write`
+
+---
+
+**45 tools** across 7 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (16), Widget (5), Earning (8)
