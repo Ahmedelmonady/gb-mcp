@@ -21,6 +21,16 @@ export class CustomersAPI {
     return this.client.request("GET", `/customers${qs ? `?${qs}` : ""}`);
   }
 
+  /** Returns aggregate customer counts (total, active, inactive) matching the filter — uses the same filter syntax as getCustomers */
+  async getCustomersCount(params: { filter?: string; orderBy?: string; dir?: string }): Promise<unknown> {
+    const query = new URLSearchParams();
+    if (params.filter) query.set("filter", params.filter);
+    if (params.orderBy) query.set("orderBy", params.orderBy);
+    if (params.dir) query.set("dir", params.dir);
+    const qs = query.toString();
+    return this.client.request("GET", `/customers/count${qs ? `?${qs}` : ""}`);
+  }
+
   /** Returns full details for a single customer by their external ID (customerId) */
   async getCustomerDetails(customerId: string): Promise<unknown> {
     return this.client.request("GET", `/customers/${encodeURIComponent(customerId)}`);
