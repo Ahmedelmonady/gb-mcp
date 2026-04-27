@@ -66,13 +66,15 @@ export function registerCustomerTools(server: McpServer, api: CustomersAPI): voi
       "Omit the filter to get the total customer count for the client.\n\n" +
       "**User prompting:** Ask what they want to count if not specified. Present the result as a short sentence (e.g. 'You have 1,234 active customers.') rather than raw JSON.",
     inputSchema: {
+      pageNo: z.number().optional().default(1).describe("Page number (accepted for interface parity with get_customers — does not affect the count)."),
+      pageSize: z.number().max(20).optional().default(12).describe("Page size (accepted for interface parity with get_customers — does not affect the count)."),
       filter: z.string().optional().describe("Filter string using the same syntax as get_customers. Omit for the total count."),
       orderBy: z.string().optional().default("CreationDate").describe("Sort field (default: CreationDate). Does not affect the count but is required by the underlying endpoint."),
       dir: z.enum(["asc", "desc"]).optional().default("desc").describe("Sort direction (default: desc). Does not affect the count."),
     },
     annotations: { readOnlyHint: true },
-  }, async ({ filter, orderBy, dir }) => {
-    const result = await api.getCustomersCount({ filter, orderBy, dir });
+  }, async ({ pageNo, pageSize, filter, orderBy, dir }) => {
+    const result = await api.getCustomersCount({ pageNo, pageSize, filter, orderBy, dir });
     return { content: [{ type: "text" as const, text: JSON.stringify((result as any)?.data ?? result, null, 2) }] };
   });
 

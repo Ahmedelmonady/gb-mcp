@@ -21,9 +21,17 @@ export class CustomersAPI {
     return this.client.request("GET", `/customers${qs ? `?${qs}` : ""}`);
   }
 
-  /** Returns aggregate customer counts (total, active, inactive) matching the filter — uses the same filter syntax as getCustomers */
-  async getCustomersCount(params: { filter?: string; orderBy?: string; dir?: string }): Promise<unknown> {
+  /** Returns aggregate customer counts (total, active, inactive) matching the filter — uses the same interface as getCustomers (pageNo/pageSize accepted but ignored) */
+  async getCustomersCount(params: {
+    pageNo?: number;
+    pageSize?: number;
+    filter?: string;
+    orderBy?: string;
+    dir?: string;
+  } = {}): Promise<unknown> {
     const query = new URLSearchParams();
+    if (params.pageNo) query.set("pageNo", String(params.pageNo));
+    if (params.pageSize) query.set("pageSize", String(params.pageSize));
     if (params.filter) query.set("filter", params.filter);
     if (params.orderBy) query.set("orderBy", params.orderBy);
     if (params.dir) query.set("dir", params.dir);

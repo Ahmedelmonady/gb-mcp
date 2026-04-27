@@ -21,9 +21,17 @@ export class CampaignsAPI {
     return this.client.request("GET", `/reward-campaigns${qs ? `?${qs}` : ""}`);
   }
 
-  /** Returns the total count of reward campaigns matching the filter — uses the same filter syntax as getRewardCampaigns */
-  async getRewardCampaignsCount(params: { filter?: string; orderBy?: string; dir?: string } = {}): Promise<unknown> {
+  /** Returns the total count of reward campaigns matching the filter — uses the same interface as getRewardCampaigns (pageNo/pageSize accepted but ignored) */
+  async getRewardCampaignsCount(params: {
+    pageNo?: number;
+    pageSize?: number;
+    filter?: string;
+    orderBy?: string;
+    dir?: string;
+  } = {}): Promise<unknown> {
     const query = new URLSearchParams();
+    if (params.pageNo) query.set("pageNo", String(params.pageNo));
+    if (params.pageSize) query.set("pageSize", String(params.pageSize));
     if (params.filter) query.set("filter", params.filter);
     if (params.orderBy) query.set("orderBy", params.orderBy);
     if (params.dir) query.set("dir", params.dir);
@@ -53,9 +61,17 @@ export class CampaignsAPI {
     return this.client.request("GET", `/reward-campaigns/${id}/customers${qs ? `?${qs}` : ""}`);
   }
 
-  /** Returns the total count of customers rewarded by a specific campaign matching the filter */
-  async getRewardCampaignCustomersCount(id: number, params: { filter?: string; orderBy?: string; dir?: string } = {}): Promise<unknown> {
+  /** Returns the total count of customers rewarded by a specific campaign matching the filter — same interface as getRewardCampaignCustomers (pageNo/pageSize accepted but ignored) */
+  async getRewardCampaignCustomersCount(id: number, params: {
+    pageNo?: number;
+    pageSize?: number;
+    filter?: string;
+    orderBy?: string;
+    dir?: string;
+  } = {}): Promise<unknown> {
     const query = new URLSearchParams();
+    if (params.pageNo) query.set("pageNo", String(params.pageNo));
+    if (params.pageSize) query.set("pageSize", String(params.pageSize));
     if (params.filter) query.set("filter", params.filter);
     if (params.orderBy) query.set("orderBy", params.orderBy);
     if (params.dir) query.set("dir", params.dir);

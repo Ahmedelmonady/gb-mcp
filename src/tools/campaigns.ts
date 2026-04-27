@@ -82,13 +82,15 @@ export function registerCampaignTools(server: McpServer, api: CampaignsAPI): voi
       "Omit the filter to get the total reward-campaign count for the client.\n\n" +
       "**User prompting:** Ask what they want to count if not specified. Present the result as a short sentence (e.g. 'You have 12 active campaigns.') rather than raw JSON.",
     inputSchema: {
+      pageNo: z.number().optional().default(1).describe("Page number (accepted for interface parity with get_reward_campaigns — does not affect the count)."),
+      pageSize: z.number().max(200).optional().default(20).describe("Page size (accepted for interface parity with get_reward_campaigns — does not affect the count)."),
       filter: z.string().optional().describe("Filter string using the same syntax as get_reward_campaigns. Omit for the total count."),
       orderBy: z.enum(["CreationDate", "frubies", "points"]).optional().default("CreationDate").describe("Sort field (default: CreationDate). Does not affect the count."),
       dir: z.enum(["asc", "desc"]).optional().default("desc").describe("Sort direction (default: desc). Does not affect the count."),
     },
     annotations: { readOnlyHint: true },
-  }, async ({ filter, orderBy, dir }) => {
-    const result = await api.getRewardCampaignsCount({ filter, orderBy, dir });
+  }, async ({ pageNo, pageSize, filter, orderBy, dir }) => {
+    const result = await api.getRewardCampaignsCount({ pageNo, pageSize, filter, orderBy, dir });
     return { content: [{ type: "text" as const, text: JSON.stringify((result as any)?.data ?? result, null, 2) }] };
   });
 
@@ -163,13 +165,15 @@ export function registerCampaignTools(server: McpServer, api: CampaignsAPI): voi
       "**User prompting:** Ask which campaign and what to count if not specified. For 'how many won' / 'how many people got a prize' on game campaigns, include `success eq true` in the filter. Present the result as a short sentence (e.g. '1,234 customers participated in your Welcome Spin.' or '342 customers won your Welcome Spin.') rather than raw JSON.",
     inputSchema: {
       campaignId: z.number().describe("The reward campaign ID. Get IDs from get_reward_campaigns."),
+      pageNo: z.number().optional().default(1).describe("Page number (accepted for interface parity with get_reward_campaign_customers — does not affect the count)."),
+      pageSize: z.number().max(50).optional().default(12).describe("Page size (accepted for interface parity with get_reward_campaign_customers — does not affect the count)."),
       filter: z.string().optional().describe("Filter string using the same syntax as get_reward_campaign_customers. Omit for the total count."),
       orderBy: z.string().optional().default("CreationDate").describe("Sort field (default: CreationDate). Does not affect the count."),
       dir: z.enum(["asc", "desc"]).optional().default("desc").describe("Sort direction (default: desc). Does not affect the count."),
     },
     annotations: { readOnlyHint: true },
-  }, async ({ campaignId, filter, orderBy, dir }) => {
-    const result = await api.getRewardCampaignCustomersCount(campaignId, { filter, orderBy, dir });
+  }, async ({ campaignId, pageNo, pageSize, filter, orderBy, dir }) => {
+    const result = await api.getRewardCampaignCustomersCount(campaignId, { pageNo, pageSize, filter, orderBy, dir });
     return { content: [{ type: "text" as const, text: JSON.stringify((result as any)?.data ?? result, null, 2) }] };
   });
 
