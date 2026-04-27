@@ -43,7 +43,7 @@ Add to your MCP config (`~/.claude/settings.json` or Claude Desktop config):
 GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 ```
 
-## Available Tools (8)
+## Available Tools (10)
 
 ### Program (2)
 
@@ -62,6 +62,13 @@ GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 | `get-customer-attributes` | Custom customer attributes with keys and data types |
 | `get-events` | Events (triggers) with metadata fields and IDs for campaign creation |
 | `get-merchants` | Merchants with ExternalIds, names, and branches |
+
+### VIP Tiers (2)
+
+| Tool | Description |
+|---|---|
+| `get-tiers` | List VIP tiers with IDs, names, order, and score thresholds |
+| `get-tier-details` | Full details for a single tier — includes reward configurations (benefits), locales, icon |
 
 ## Authentication
 

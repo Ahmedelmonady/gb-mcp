@@ -85,6 +85,19 @@ Multi-scope: each tool accepts any relevant scope (e.g., `get_tags` works with `
 
 ---
 
+### VIP Tiers (2 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_tiers` | List VIP tiers with IDs, names, order, and score thresholds |
+| `get_tier_details` | Get full details for a single tier — includes reward configurations (benefits), locales, icon |
+
+Used by Customers (filter by tier), Campaigns (audience targeting), Redemption (tier-specific rules), Earning (tier children).
+
+Scope: `vip-tiers:read`, `customers:read`
+
+---
+
 ## Summary
 
-**8 tools** across 2 modules: Program (2), Utils (6)
+**10 tools** across 3 modules: Program (2), Utils (6), Tiers (2)
