@@ -255,4 +255,41 @@ Scope: `earning:read`, `earning:write`
 
 ---
 
-**45 tools** across 7 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (16), Widget (5), Earning (8)
+### Customers (7 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_customers` | List customers with pagination and 18 filter types |
+| `get_customers_count` | Aggregate customer counts (total, active, inactive) matching the same filter syntax as get_customers |
+| `get_customer_details` | Get full customer profile by ExternalId (customerId) |
+| `add_customer_points` | Add points or currency amount to a customer's balance |
+| `deduct_customer_points` | Deduct points or currency amount from a customer's balance |
+| `assign_customer_tags` | Assign tags to one or more customers by Gameball IDs |
+| `remove_customer_tags` | Remove tags from one or more customers by Gameball IDs |
+
+#### Supported Filters (18)
+
+| Filter | Syntax | Value Type |
+|---|---|---|
+| External ID | `id in {text}` | Contains match |
+| Display name | `name in {text}` | Contains match |
+| Phone | `phone in {text}` | Contains match |
+| Email | `email in {text}` | Contains match |
+| Tier | `level in {id,id}` | Comma-separated tier IDs |
+| Points >= / <= / range | `points ge/le/between` | Integer |
+| Pending points >= / <= / range | `ppoints ge/le/between` | Integer |
+| Score >= / <= / range | `frubies ge/le/between` | Integer |
+| Created after / before | `cdate ge/le` | ISO date |
+| Active status | `active eq {bool}` | true/false |
+| Guest status | `isguest eq {bool}` | true/false |
+| Tags | `tags in {id,id}` | Comma-separated tag IDs |
+
+Filters use AND logic, separated by `;f;`. Example: `level in 1464;f;points ge 100;f;active eq true`
+
+Dependencies: Utils (tags), Tiers (tier IDs for filter)
+
+Scope: `customers:read`, `customers:write`
+
+---
+
+**52 tools** across 8 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (16), Widget (5), Earning (8), Customers (7)
