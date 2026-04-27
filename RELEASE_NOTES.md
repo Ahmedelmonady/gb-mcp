@@ -59,10 +59,21 @@ Toolset-specific overrides remain in their files (e.g. `tools/shared.ts` `CORE_R
 
 ## Modules
 
-Toolsets are added in subsequent commits — utils, program, tiers, redemption, reward campaigns, widget, earning, customers.
+### Utils / Discovery (6 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_supported_languages` | List client's languages with IDs, codes, and direction |
+| `get_collections` | List product collections for restriction rules |
+| `get_tags` | List tags (1=Internal, 2=Segment, 3=RFM, 4=Custom) for audience targeting |
+| `get_customer_attributes` | List custom customer attributes with data types |
+| `get_events` | List events (triggers) with metadata fields for campaign creation |
+| `get_merchants` | List merchants with ExternalIds, names, and branches |
+
+Multi-scope: each tool accepts any relevant scope (e.g., `get_tags` works with `reward-campaigns:read` OR `customers:read`)
 
 ---
 
 ## Summary
 
-**0 tools** — scaffold only. Modules added in subsequent commits.
+**6 tools** across 1 module: Utils (6)

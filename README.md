@@ -43,9 +43,18 @@ Add to your MCP config (`~/.claude/settings.json` or Claude Desktop config):
 GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 ```
 
-## Available Tools (0)
+## Available Tools (6)
 
-Toolsets are added in subsequent commits — utils, program, tiers, redemption, reward campaigns, widget, earning, customers.
+### Discovery / Utils (6)
+
+| Tool | Description |
+|---|---|
+| `get-supported-languages` | Client's supported languages with IDs, codes, direction |
+| `get-collections` | Product collections with collectionId for restriction rules |
+| `get-tags` | Tags, segments, RFM with IDs and types for audience targeting |
+| `get-customer-attributes` | Custom customer attributes with keys and data types |
+| `get-events` | Events (triggers) with metadata fields and IDs for campaign creation |
+| `get-merchants` | Merchants with ExternalIds, names, and branches |
 
 ## Authentication
 
