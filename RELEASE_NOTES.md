@@ -98,6 +98,35 @@ Scope: `vip-tiers:read`, `customers:read`
 
 ---
 
+### Redemption Options (6 tools)
+
+| Tool | What it does |
+|---|---|
+| `get_redemption_options` | List all redemption rules |
+| `get_redemption_option` | Get full details for a single rule |
+| `create_redemption_option` | Create new rule with audience, collections, merchants, localized names |
+| `update_redemption_option` | Update an existing rule |
+| `toggle_redemption_option_activation` | Activate or deactivate a rule |
+| `delete_redemption_option` | Delete a rule |
+
+#### Supported Redemption Rule Types
+
+| Rule Type | Key | Description |
+|---|---|---|
+| Fixed Rate Discount | `fixed_rate_settings` | Fixed currency discount (e.g., $5 off) |
+| Percentage Discount | `percentage_discount_settings` | Percentage off (1-100%) with optional capping |
+| Free Shipping | `free_shipping_settings` | Free shipping coupon |
+| Free Product | `free_product_settings` | Specific product by ID |
+| Custom | `custom` | Third-party coupon by group handle |
+
+All rules support: audience targeting, collection/merchant restrictions, localized reward names, coupon expiry, usage limits, cashback mode, platform targeting.
+
+Dependencies: Utils (languages, tags, collections, merchants)
+
+Scope: `redemption:read`, `redemption:write`
+
+---
+
 ## Summary
 
-**10 tools** across 3 modules: Program (2), Utils (6), Tiers (2)
+**16 tools** across 4 modules: Program (2), Utils (6), Tiers (2), Redemption (6)

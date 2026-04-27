@@ -43,7 +43,7 @@ Add to your MCP config (`~/.claude/settings.json` or Claude Desktop config):
 GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 ```
 
-## Available Tools (10)
+## Available Tools (16)
 
 ### Program (2)
 
@@ -69,6 +69,17 @@ GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 |---|---|
 | `get-tiers` | List VIP tiers with IDs, names, order, and score thresholds |
 | `get-tier-details` | Full details for a single tier — includes reward configurations (benefits), locales, icon |
+
+### Redemption Options (6)
+
+| Tool | Description |
+|---|---|
+| `get-redemption-options` | List all redemption rules (slim: id, name, type, points, isVisible) |
+| `get-redemption-option` | Full details for a single rule by ID |
+| `create-redemption-option` | Create new rule (fixed, percentage, free shipping, free product, custom) |
+| `update-redemption-option` | Update an existing rule by ID |
+| `toggle-redemption-option-activation` | Activate/deactivate a rule by ID |
+| `delete-redemption-option` | Delete a rule by ID (General rule protected) |
 
 ## Authentication
 
