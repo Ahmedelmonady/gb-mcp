@@ -63,13 +63,14 @@ export function registerCampaignTools(server: McpServer, api: CampaignsAPI): voi
   }, async ({ pageNo, pageSize, filter, orderBy, dir }) => {
     const result = await api.getRewardCampaigns({ pageNo, pageSize, filter, orderBy, dir });
     const data = (result as any)?.data;
-    const rawItems = data?.items || data || [];
+    const rawItems = data?.items || data?.data || data || [];
     const items = (Array.isArray(rawItems) ? rawItems : []).map((c: any) => ({
       id: c.id, name: c.name, behaviorTypeId: c.behaviorTypeId,
       isActive: c.isActive, gbCode: c.gbCode, isReferral: c.isReferral,
       visibility: c.visibility, hasAudience: c.hasAudience,
     }));
-    return { content: [{ type: "text" as const, text: JSON.stringify({ items, totalCount: data?.totalCount }, null, 2) }] };
+    const totalCount = data?.count ?? data?.totalCount;
+    return { content: [{ type: "text" as const, text: JSON.stringify({ items, totalCount }, null, 2) }] };
   });
 
   server.registerTool("get_reward_campaigns_count", {
@@ -92,6 +93,36 @@ export function registerCampaignTools(server: McpServer, api: CampaignsAPI): voi
   }, async ({ pageNo, pageSize, filter, orderBy, dir }) => {
     const result = await api.getRewardCampaignsCount({ pageNo, pageSize, filter, orderBy, dir });
     return { content: [{ type: "text" as const, text: JSON.stringify((result as any)?.data ?? result, null, 2) }] };
+  });
+
+  server.registerTool("get_reward_campaigns_stats", {
+    title: "Get Reward Campaigns Stats",
+    description:
+      "Lists reward campaigns with their **per-campaign achievement counts pre-aggregated** in a single call. Each row returns `id`, `numberAchievements` (total achievements), and `numberPlayersAchieved` (unique players who achieved). Same filter syntax as `get_reward_campaigns`.\n\n" +
+      "**Use this when** the user asks performance / ranking questions across many campaigns — e.g. 'which campaign has the most achievements', 'top 5 campaigns by unique players', 'how engaging is each campaign'. The backend joins the Achievement table once for ALL campaigns in the page, so this is **one round-trip** even for the full list.\n\n" +
+      "**Avoid the N+1 trap:** do NOT loop `get_reward_campaign_customers_count` per campaign — that fires N+1 queries and overloads the server. Use this tool instead.\n\n" +
+      "**To answer 'campaign with most achievements':** call once with `pageSize: 1`, `orderBy: <if backend supports an achievements sort>`, or just fetch a page and sort in your response.\n\n" +
+      "**Filter syntax:** identical to `get_reward_campaigns` — see that tool for the full filter table. Combine with `status eq true` to limit to active campaigns.\n\n" +
+      "**User prompting:** Ask the user what they want to rank by (achievements, unique players, points awarded). Present results in a friendly readable list, not raw JSON.",
+    inputSchema: {
+      pageNo: z.number().optional().default(1).describe("Page number (default: 1)"),
+      pageSize: z.number().max(200).optional().default(20).describe("Page size (default: 20, max: 200) — set to total active campaign count if you want them all in one call."),
+      filter: z.string().optional().describe("Filter string using the same syntax as get_reward_campaigns. Omit for all campaigns."),
+      orderBy: z.string().optional().default("CreationDate").describe("Sort field (default: CreationDate). Pass 'frubies' for rank-points-based ordering or 'points' for wallet-points-based ordering."),
+      dir: z.enum(["asc", "desc"]).optional().default("desc").describe("Sort direction (default: desc)"),
+    },
+    annotations: { readOnlyHint: true },
+  }, async ({ pageNo, pageSize, filter, orderBy, dir }) => {
+    const result = await api.getRewardCampaignsStats({ pageNo, pageSize, filter, orderBy, dir });
+    const data = (result as any)?.data;
+    const rawItems = data?.items || data?.data || data || [];
+    const items = (Array.isArray(rawItems) ? rawItems : []).map((c: any) => ({
+      id: c.id,
+      numberAchievements: c.numberAchievements,
+      numberPlayersAchieved: c.numberPlayersAchieved,
+    }));
+    const totalCount = data?.count ?? data?.totalCount;
+    return { content: [{ type: "text" as const, text: JSON.stringify({ items, totalCount }, null, 2) }] };
   });
 
   server.registerTool("get_reward_campaign", {
