@@ -43,7 +43,7 @@ Add to your MCP config (`~/.claude/settings.json` or Claude Desktop config):
 GAMEBALL_PAT_TOKEN=gbpat_xxx node build/index.js
 ```
 
-## Available Tools (52)
+## Available Tools (53)
 
 ### Program (2)
 
@@ -140,6 +140,14 @@ Template-first flow: call `get-campaign-template` to get a full seed-data templa
 | `update-reward-campaign` | Update an existing campaign by ID (GET first, modify, pass back) |
 | `toggle-reward-campaign-activation` | Activate/deactivate a campaign by ID |
 | `delete-reward-campaign` | Delete a campaign and all child entities by ID |
+
+### Analytics (1)
+
+| Tool | Description |
+|---|---|
+| `get_analytics_chart` | Fetch one analytics chart from gb-advanced-analytics. The tool description carries a structured catalog of 90 charts across 8 dashboard pages, each labeled with chart type (`card` / `line` / `bar` / `pie` / `heatmap` / `table`) and a `supportsTimeGrouping` flag. The AI uses that flag to decide whether to offer `groupingType`. Tag and campaign filters require name → ID resolution via `get_tags` and `get_reward_campaigns` first. MCP layer maps friendly chart name → technical chartName before calling the backend. Required: `chartName`, `from`, `to` (the AI must gather all three from the user before calling). |
+
+Scope: `analytics:read`
 
 ## Authentication
 

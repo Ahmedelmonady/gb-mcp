@@ -292,4 +292,52 @@ Scope: `customers:read`, `customers:write`
 
 ---
 
-**52 tools** across 8 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (16), Widget (5), Earning (8), Customers (7)
+### Analytics (1 tool)
+
+| Tool | What it does |
+|---|---|
+| `get_analytics_chart` | Fetch one analytics chart from gb-advanced-analytics — covers 90 named charts grouped across 8 dashboard pages |
+
+The tool exposes the chart catalog as a friendly-name `chartName` enum. The MCP layer maps each friendly name (e.g. `"Top Achieved Campaigns"`) to the technical chartName (`top_achieved_campaigns`) before calling the backend, which forwards the request to gb-advanced-analytics' `/internal/analytics/dashboard/query` endpoint via the existing `IAdvancedAnalyticsService`.
+
+#### Required vs optional parameters
+
+| Param | Required? | The AI's behavior |
+|---|---|---|
+| `chartName` | required | enum of 90 friendly names, echo back to user |
+| `from`, `to` | required | always ask the user for a date range, convert relative terms to ISO 8601 |
+| `tag` | optional, universal | offer when user mentions a segment by name; resolve name → ID via `get_tags` first (same pattern as event-id resolution) |
+| `groupingType` | optional, per-chart | offer ONLY on charts where Time grouping = `yes` |
+| `aggregationType` | optional, almost-never | each chart has a default, override only on explicit user request |
+| `challengeId` | optional, narrow | only meaningful on a few campaign-related charts; resolve campaign name → ID via `get_reward_campaigns` first |
+
+#### Catalog metadata (per-chart)
+
+Each chart entry in the tool description carries: `human` name, `technical` name, `type` (`card` / `line` / `bar` / `pie` / `heatmap` / `table`), `page`, `supportsTimeGrouping`. Sources kept in sync with:
+
+- chart **type** ← `gb-frontend-v2` `chartConfigs.ts`
+- **time grouping** support ← `gb-advanced-analytics` `ChartMappings.ChartToGroup` default
+- technical-name allowlist ← `g-backend-v2` `AnalyticsChartCatalog.cs`
+
+#### Charts by page
+
+| Page | Count | Examples |
+|---|---|---|
+| Member Analytics | 11 | Enrolled Members (card), Member Growth (line), Retention Cohort (heatmap) |
+| Purchase Behavior | 13 | Attributed Sales (card), Average Order Value AOV (card), Customer LTV by Segment (line) |
+| Points & Rewards | 32 | Total Available Points (card), Redemption Rate (bar), Coupon Usage Rate (card), Top Issued Coupons (bar) |
+| Campaign Performance | 8 | Reward Campaign Reach (card), Top Achieved Campaigns (bar), Campaigns Cost in Points Trend (line) |
+| Referral Analytics | 6 | Pending Referrals (card), Successful Referrals Rate (bar), Top Referring Customers (bar) |
+| Tiers Performance | 14 | Tier Upgrade Percentage (card), Tier Transition Trends (line), Revenue per Tier (bar), Tier Performance Prediction (table) |
+| Redemption Options | 5 | Redemption Options Performance (table), Average Burn Rate (card) |
+| Home Analytics | 1 | Home Revenue Distribution (table) |
+
+#### Routing
+
+`gameball-mcp` → `g-backend-v2` `/api/v4.0/mcp/analytics/query` (PAT auth + `analytics:read` scope) → server-to-server HTTP → `gb-advanced-analytics` `/internal/analytics/dashboard/query` (no JWT, `clientId` query param).
+
+Scope: `analytics:read`
+
+---
+
+**53 tools** across 9 modules: Program (2), Utils (6), Tiers (2), Redemption (6), Campaigns (16), Widget (5), Earning (8), Customers (7), Analytics (1)
