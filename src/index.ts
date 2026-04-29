@@ -12,6 +12,7 @@ import { CampaignsAPI } from "./api/campaigns.js";
 import { WidgetAPI } from "./api/widget.js";
 import { EarningAPI } from "./api/earning.js";
 import { CustomersAPI } from "./api/customers.js";
+import { AnalyticsAPI } from "./api/analytics.js";
 import { registerUtilsTools } from "./tools/utils.js";
 import { registerProgramTools } from "./tools/program.js";
 import { registerTierTools } from "./tools/tiers.js";
@@ -20,6 +21,7 @@ import { registerCampaignTools } from "./tools/campaigns.js";
 import { registerWidgetTools } from "./tools/widget.js";
 import { registerEarningTools } from "./tools/earning.js";
 import { registerCustomerTools } from "./tools/customers.js";
+import { registerAnalyticsTools } from "./tools/analytics.js";
 
 const GAMEBALL_TOKEN = process.env.GAMEBALL_PAT_TOKEN;
 const GAMEBALL_BASE_URL = process.env.GAMEBALL_BASE_URL;
@@ -86,6 +88,7 @@ registerCampaignTools(server, new CampaignsAPI(client));
 registerWidgetTools(server, new WidgetAPI(client));
 registerEarningTools(server, new EarningAPI(client));
 registerCustomerTools(server, new CustomersAPI(client));
+registerAnalyticsTools(server, new AnalyticsAPI(client));
 
 async function main() {
   const transport = new StdioServerTransport();
